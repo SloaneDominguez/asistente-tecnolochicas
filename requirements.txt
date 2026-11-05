@@ -1,3 +1,5 @@
 flask
+gunicorn
 azure-identity
-azure-ai-projects
+azure-ai-projects>=2.0.0
+openai
