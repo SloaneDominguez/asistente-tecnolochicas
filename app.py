@@ -26,45 +26,52 @@ CONTEXTO_ADA = (
 # ---------- Cliente Azure AI Project ----------
 project_client = None
 openai_client = None
-try:
-    if not FOUNDRY_ENDPOINT:
-        raise ValueError("Falta la variable de entorno FOUNDRY_ENDPOINT")
-    project_client = AIProjectClient(
-        endpoint=FOUNDRY_ENDPOINT,
-        credential=DefaultAzureCredential(),
-    )
-    openai_client = project_client.get_openai_client(agent_name=AGENT_NAME)
-except Exception:
-    logger.exception("Error al inicializar el cliente de Foundry")
 
+def get_clients():
+    global project_client, openai_client
+    if openai_client is None:
+        if not FOUNDRY_ENDPOINT:
+            raise ValueError("Falta la variable de entorno FOUNDRY_ENDPOINT")
+        
+        project_client = AIProjectClient(
+            endpoint=FOUNDRY_ENDPOINT,
+            credential=DefaultAzureCredential(),
+        )
+        # Inicializa el cliente de OpenAI vinculado al proyecto de Foundry
+        openai_client = project_client.get_openai_client()
+    return openai_client
 
 # ---------- Lógica del Agente Ada ----------
 def _ejecutar_agente(mensaje, conversation_id=None):
-    """Envía un mensaje al agente Ada y devuelve (respuesta, conversation_id)."""
+    client = get_clients()
     es_nueva = not conversation_id
+    
     if es_nueva:
-        conversation_id = openai_client.conversations.create().id
+        conversation_id = client.conversations.create().id
 
-    # El contexto solo se envía en el primer turno de la conversación
     contenido = f"{CONTEXTO_ADA}Consulta de la instructora: {mensaje}" if es_nueva else mensaje
 
-    response = openai_client.responses.create(
+    response = client.responses.create(
         conversation=conversation_id,
         input=[{"role": "user", "content": contenido}],
+        extra_body={"assistant_id": AGENT_NAME} if AGENT_NAME else None
     )
     return response.output_text, conversation_id
-
 
 # ---------- Rutas ----------
 @app.route("/")
 def index():
     return render_template("index.html")
 
-
 @app.route("/health")
 def health():
-    return jsonify({"status": "ok", "foundry_ready": openai_client is not None})
-
+    try:
+        get_clients()
+        ready = True
+    except Exception as e:
+        logger.error(f"Health check falló al conectar con Foundry: {e}")
+        ready = False
+    return jsonify({"status": "ok", "foundry_ready": ready})
 
 @app.route("/api/chat", methods=["POST"])
 def chat():
@@ -75,21 +82,17 @@ def chat():
     if not user_message:
         return jsonify({"error": "El mensaje no puede estar vacío"}), 400
 
-    if openai_client is None:
-        return jsonify({"error": "El servicio de IA no está disponible en este momento"}), 503
-
     try:
         reply, conversation_id = _ejecutar_agente(user_message, conversation_id)
         return jsonify({"reply": reply, "conversation_id": conversation_id})
 
-    except PermissionDeniedError:
+    except PermissionDeniedError as e:
         logger.exception("403 al llamar a Foundry (revisar RBAC)")
-        return jsonify({"error": "La aplicación no tiene permisos para usar el agente."}), 502
+        return jsonify({"error": f"Error de permisos (403): {str(e)}"}), 502
 
-    except Exception:
+    except Exception as e:
         logger.exception("Error al comunicar con Ada")
-        return jsonify({"error": "Ocurrió un error al comunicar con Ada. Intenta de nuevo."}), 500
-
+        return jsonify({"error": f"Error al comunicar con Ada: {str(e)}"}), 500
 
 if __name__ == "__main__":
     app.run(port=5000)
