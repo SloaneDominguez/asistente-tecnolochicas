@@ -12,7 +12,6 @@
             --purple-dark: #351a5c;
             --purple-light: #f4effa;
             --white: #ffffff;
-            --gray-light: #f8f9fa;
         }
 
         * {
@@ -28,23 +27,22 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
         }
 
         .chat-container {
             width: 100%;
             max-width: 750px;
-            height: 85vh;
+            height: 90vh;
             background: var(--white);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(85, 46, 137, 0.15);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(85, 46, 137, 0.2);
             display: flex;
             flex-direction: column;
             overflow: hidden;
             border: 2px solid rgba(85, 46, 137, 0.1);
         }
 
-        /* Header inspirado en la marca */
         .chat-header {
             background: linear-gradient(135deg, var(--purple-main), var(--pink-accent));
             color: var(--white);
@@ -52,7 +50,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .header-info {
@@ -62,37 +59,89 @@
         }
 
         .avatar {
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             background: var(--white);
             color: var(--pink-accent);
             font-weight: 700;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: pulseAvatar 2s infinite;
+        }
+
+        @keyframes pulseAvatar {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         .header-title h1 {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            letter-spacing: 0.5px;
         }
 
         .header-title p {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             opacity: 0.9;
         }
 
         .badge {
             background: rgba(255, 255, 255, 0.2);
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 600;
             backdrop-filter: blur(5px);
+        }
+
+        /* Sección de Módulos Rápidos */
+        .quick-modules {
+            background: #fcf9ff;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(85, 46, 137, 0.1);
+        }
+
+        .quick-modules p {
+            font-size: 0.75rem;
+            color: var(--purple-main);
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px;
+        }
+
+        .module-btn {
+            background: var(--white);
+            border: 1px solid #e8e2f0;
+            color: var(--purple-dark);
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .module-btn:hover {
+            background: var(--purple-main);
+            color: var(--white);
+            border-color: var(--purple-main);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(85, 46, 137, 0.2);
         }
 
         /* Área de Mensajes */
@@ -107,23 +156,23 @@
         }
 
         .message {
-            max-width: 80%;
-            padding: 14px 18px;
-            border-radius: 18px;
+            max-width: 85%;
+            padding: 15px 20px;
+            border-radius: 20px;
             font-size: 0.95rem;
             line-height: 1.5;
             word-wrap: break-word;
-            animation: fadeIn 0.3s ease-in-out;
+            animation: slideUp 0.4s cubic-bezier(0.1, 1, 0.1, 1);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .user-message {
             align-self: flex-end;
-            background: var(--purple-main);
+            background: linear-gradient(135deg, var(--purple-main), #6b3fa6);
             color: var(--white);
             border-bottom-right-radius: 4px;
         }
@@ -133,8 +182,8 @@
             background: var(--white);
             color: var(--purple-dark);
             border-bottom-left-radius: 4px;
-            border: 1px solid rgba(85, 46, 137, 0.12);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(85, 46, 137, 0.15);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
         }
 
         .ada-name {
@@ -145,7 +194,7 @@
             display: block;
         }
 
-        /* Área de Input */
+        /* Input y Envío */
         .chat-input-container {
             padding: 20px;
             background: var(--white);
@@ -157,7 +206,7 @@
 
         .chat-input {
             flex: 1;
-            padding: 14px 20px;
+            padding: 15px 22px;
             border: 2px solid #e8e2f0;
             border-radius: 30px;
             outline: none;
@@ -167,47 +216,41 @@
 
         .chat-input:focus {
             border-color: var(--pink-accent);
-            box-shadow: 0 0 0 4px rgba(226, 27, 121, 0.1);
+            box-shadow: 0 0 0 4px rgba(226, 27, 121, 0.15);
         }
 
         .send-btn {
             background: linear-gradient(135deg, var(--pink-accent), var(--purple-main));
             color: var(--white);
             border: none;
-            padding: 14px 24px;
+            padding: 15px 28px;
             border-radius: 30px;
             font-weight: 600;
             font-size: 0.95rem;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 4px 12px rgba(226, 27, 121, 0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(226, 27, 121, 0.3);
         }
 
         .send-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(226, 27, 121, 0.4);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(226, 27, 121, 0.4);
         }
 
         .send-btn:active {
-            transform: translateY(0);
+            transform: scale(0.98);
         }
 
-        /* Responsive */
         @media (max-width: 600px) {
-            .chat-container {
-                height: 100vh;
-                border-radius: 0;
-            }
-            body {
-                padding: 0;
-            }
+            .chat-container { height: 100vh; border-radius: 0; }
+            body { padding: 0; }
+            .module-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
 
     <div class="chat-container">
-        <!-- Header -->
         <div class="chat-header">
             <div class="header-info">
                 <div class="avatar">A</div>
@@ -219,17 +262,26 @@
             <span class="badge">IA Pedagógica</span>
         </div>
 
-        <!-- Historial de Chat -->
-        <div class="chat-messages" id="chatMessages">
-            <div class="message ada-message">
-                <span class="ada-name">Ada</span>
-                ¡Hola, Instructora! 💜 Soy Ada, tu mentora pedagógica. ¿En qué te puedo ayudar hoy con tus clases de Scratch, Python o Inteligencia Artificial?
+        <!-- Módulos de Acceso Rápido -->
+        <div class="quick-modules">
+            <p>Sugerencias para tus clases:</p>
+            <div class="module-grid">
+                <button class="module-btn" onclick="enviarModulo('Creación de videojuegos con Scratch')">🎮 Videojuegos Scratch</button>
+                <button class="module-btn" onclick="enviarModulo('Mi primer chatbot IA con Scratch')">🤖 Chatbot Scratch</button>
+                <button class="module-btn" onclick="enviarModulo('Codea un bot con Python')">🐍 Codea con Python</button>
+                <button class="module-btn" onclick="enviarModulo('Electrolab - Componentes electrónicos')">⚡ Electrolab</button>
             </div>
         </div>
 
-        <!-- Input de mensaje -->
+        <div class="chat-messages" id="chatMessages">
+            <div class="message ada-message">
+                <span class="ada-name">Ada</span>
+                ¡Hola, Instructora! 💜 Soy Ada, tu mentora pedagógica. Elige uno de los temas de arriba o escribe tu duda para planear juntas una clase increíble.
+            </div>
+        </div>
+
         <div class="chat-input-container">
-            <input type="text" id="userInput" class="chat-input" placeholder="Escribe tu consulta o duda pedagógica..." onkeypress="handleKeyPress(event)">
+            <input type="text" id="userInput" class="chat-input" placeholder="Escribe tu consulta pedagógica..." onkeypress="handleKeyPress(event)">
             <button onclick="enviarMensaje()" class="send-btn">Enviar</button>
         </div>
     </div>
@@ -243,6 +295,12 @@
             }
         }
 
+        function enviarModulo(nombreModulo) {
+            const input = document.getElementById('userInput');
+            input.value = `Dame ideas de actividades, explicaciones y dinámicas para enseñar el módulo: ${nombreModulo}`;
+            enviarMensaje();
+        }
+
         async function enviarMensaje() {
             const input = document.getElementById('userInput');
             const message = input.value.trim();
@@ -250,7 +308,6 @@
 
             const chatMessages = document.getElementById('chatMessages');
 
-            // Mostrar mensaje del usuario
             const userDiv = document.createElement('div');
             userDiv.className = 'message user-message';
             userDiv.textContent = message;
@@ -259,11 +316,10 @@
             input.value = '';
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            // Indicador de "Escribiendo..."
             const loadingDiv = document.createElement('div');
             loadingDiv.className = 'message ada-message';
             loadingDiv.id = 'loadingMessage';
-            loadingDiv.innerHTML = '<span class="ada-name">Ada</span><i>Pensando respuesta...</i>';
+            loadingDiv.innerHTML = '<span class="ada-name">Ada</span><i>Pensando la mejor estrategia pedagógica...</i>';
             chatMessages.appendChild(loadingDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
@@ -275,8 +331,6 @@
                 });
 
                 const data = await response.json();
-                
-                // Remover mensaje de carga
                 document.getElementById('loadingMessage').remove();
 
                 if (data.error) {
