@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ada - Mentora TECNOLOchicas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --purple-main: #552e89;
+            --pink-accent: #e21b79;
+            --purple-dark: #351a5c;
+            --purple-light: #f4effa;
+            --white: #ffffff;
+            --gray-light: #f8f9fa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--purple-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 750px;
+            height: 85vh;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(85, 46, 137, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 2px solid rgba(85, 46, 137, 0.1);
+        }
+
+        /* Header inspirado en la marca */
+        .chat-header {
+            background: linear-gradient(135deg, var(--purple-main), var(--pink-accent));
+            color: var(--white);
+            padding: 20px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            background: var(--white);
+            color: var(--pink-accent);
+            font-weight: 700;
+            font-size: 1.3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-title h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header-title p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Área de Mensajes */
+        .chat-messages {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: #faf8fc;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 14px 18px;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background: var(--purple-main);
+            color: var(--white);
+            border-bottom-right-radius: 4px;
+        }
+
+        .ada-message {
+            align-self: flex-start;
+            background: var(--white);
+            color: var(--purple-dark);
+            border-bottom-left-radius: 4px;
+            border: 1px solid rgba(85, 46, 137, 0.12);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+        }
+
+        .ada-name {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--pink-accent);
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        /* Área de Input */
+        .chat-input-container {
+            padding: 20px;
+            background: var(--white);
+            border-top: 1px solid rgba(85, 46, 137, 0.08);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 14px 20px;
+            border: 2px solid #e8e2f0;
+            border-radius: 30px;
+            outline: none;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: var(--pink-accent);
+            box-shadow: 0 0 0 4px rgba(226, 27, 121, 0.1);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, var(--pink-accent), var(--purple-main));
+            color: var(--white);
+            border: none;
+            padding: 14px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 12px rgba(226, 27, 121, 0.3);
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(226, 27, 121, 0.4);
+        }
+
+        .send-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .chat-container {
+                height: 100vh;
+                border-radius: 0;
+            }
+            body {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="header-info">
+                <div class="avatar">A</div>
+                <div class="header-title">
+                    <h1>Ada</h1>
+                    <p>Mentora TECNOLOchicas</p>
+                </div>
+            </div>
+            <span class="badge">IA Pedagógica</span>
+        </div>
+
+        <!-- Historial de Chat -->
+        <div class="chat-messages" id="chatMessages">
+            <div class="message ada-message">
+                <span class="ada-name">Ada</span>
+                ¡Hola, Instructora! 💜 Soy Ada, tu mentora pedagógica. ¿En qué te puedo ayudar hoy con tus clases de Scratch, Python o Inteligencia Artificial?
+            </div>
+        </div>
+
+        <!-- Input de mensaje -->
+        <div class="chat-input-container">
+            <input type="text" id="userInput" class="chat-input" placeholder="Escribe tu consulta o duda pedagógica..." onkeypress="handleKeyPress(event)">
+            <button onclick="enviarMensaje()" class="send-btn">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        let conversationId = null;
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                enviarMensaje();
+            }
+        }
+
+        async function enviarMensaje() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const chatMessages = document.getElementById('chatMessages');
+
+            // Mostrar mensaje del usuario
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message user-message';
+            userDiv.textContent = message;
+            chatMessages.appendChild(userDiv);
+
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Indicador de "Escribiendo..."
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'message ada-message';
+            loadingDiv.id = 'loadingMessage';
+            loadingDiv.innerHTML = '<span class="ada-name">Ada</span><i>Pensando respuesta...</i>';
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message, conversation_id: conversationId })
+                });
+
+                const data = await response.json();
+                
+                // Remover mensaje de carga
+                document.getElementById('loadingMessage').remove();
+
+                if (data.error) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'message ada-message';
+                    errorDiv.style.borderColor = '#ff4d4d';
+                    errorDiv.innerHTML = `<span class="ada-name">Error</span>${data.error}`;
+                    chatMessages.appendChild(errorDiv);
+                } else {
+                    conversationId = data.conversation_id;
+                    const adaDiv = document.createElement('div');
+                    adaDiv.className = 'message ada-message';
+                    adaDiv.innerHTML = `<span class="ada-name">Ada</span>${data.reply}`;
+                    chatMessages.appendChild(adaDiv);
+                }
+            } catch (err) {
+                document.getElementById('loadingMessage').remove();
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'message ada-message';
+                errorDiv.innerHTML = '<span class="ada-name">Error</span>No se pudo conectar con el servidor.';
+                chatMessages.appendChild(errorDiv);
+            }
+
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
+</body>
+</html>
