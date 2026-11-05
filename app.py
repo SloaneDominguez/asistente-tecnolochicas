@@ -1,4 +1,4 @@
-import os
+nimport os
 import logging
 from flask import Flask, render_template, request, jsonify
 from azure.identity import DefaultAzureCredential
@@ -13,6 +13,7 @@ app = Flask(__name__)
 # ---------- Configuración ----------
 FOUNDRY_ENDPOINT = os.environ.get("FOUNDRY_ENDPOINT")
 AGENT_NAME = os.getenv("AGENT_NAME", "Ada-Tecnolochicas")
+API_VERSION = os.getenv("API_VERSION", "2024-05-01-preview")
 
 CONTEXTO_ADA = (
     "Eres Ada, la mentora virtual y asistente pedagógica de TECNOLOchicas.\n"
@@ -38,7 +39,7 @@ def get_clients():
             credential=DefaultAzureCredential(),
         )
         # Inicializa el cliente de OpenAI vinculado al proyecto de Foundry
-        openai_client = project_client.get_openai_client()
+        openai_client = project_client.get_openai_cliento(api_version=API_VERSION)
     return openai_client
 
 # ---------- Lógica del Agente Ada ----------
